@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="KotlinJavaRuntime">
+    <CLASSES>
+      <root url="jar://$KOTLIN_BUNDLED$/lib/kotlin-runtime.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Dependencies/spigot-1.8.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Dependencies/Vault.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$KOTLIN_BUNDLED$/lib/kotlin-runtime-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Dependencies/spigot-1.8.8.jar!/" />
+    </SOURCES>
+  </library>
+</component>

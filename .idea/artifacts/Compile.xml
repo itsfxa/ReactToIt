@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Compile">
+    <output-path>$USER_HOME$/Desktop</output-path>
+    <root id="archive" name="ReactToIt.jar">
+      <element id="module-output" name="ReactToIt" />
+      <element id="extracted-dir" path="$KOTLIN_BUNDLED$/lib/kotlin-runtime.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
