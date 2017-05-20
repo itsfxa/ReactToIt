@@ -1,0 +1,8 @@
+main: me.deceptions.reacttoit.Main
+name: ReactToIt
+version: 1.1
+author: FXA
+
+commands:
+  react:
+    description: Starts react.
