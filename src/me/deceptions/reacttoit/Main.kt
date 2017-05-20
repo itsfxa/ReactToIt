@@ -15,8 +15,7 @@ class Main : JavaPlugin(), Listener {
 
     /*
     TODO:
-    Reward the player when the get the word correct.
-    Make it actually deposit money to the player.
+    Nothing.
      */
 
     var econ: Economy? = null
@@ -44,7 +43,7 @@ class Main : JavaPlugin(), Listener {
         if (msg == react) {
             p.sendMessage(col("&7Congratulations, you got the word right!"))
             react = null
-            econ!!.depositPlayer(p, config.getInt("Money-to-pay").toDouble())
+            econ!!.depositPlayer(p, config.getInt("Money-to-win").toDouble())
             p.sendMessage(col("&7You now have: &a$${econ!!.getBalance(p).toInt()}"))
             e.isCancelled = true
         }
