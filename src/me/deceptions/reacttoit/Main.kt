@@ -30,7 +30,7 @@ class Main : JavaPlugin(), Listener {
         super.onEnable()
         Bukkit.getPluginManager().registerEvents(this, this)
         getCommand("react").executor = this
-        saveConfig()
+        saveDefaultConfig()
         config.options().copyDefaults(true)
         // If vault is not installed, disable the plugin.
         if (!setupEconomy()) {
@@ -49,7 +49,7 @@ class Main : JavaPlugin(), Listener {
             // Declaring variables
             val secondsTaken = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) // The time taken in seconds.
             val secondsStartTime = TimeUnit.MILLISECONDS.toSeconds(startTime!!.toLong()) // The start time in seconds.
-            val finalTime: Long? = secondsTaken - secondsStartTime // The final time (reaction time)
+            val finalTime: Long = secondsTaken - secondsStartTime // The final time (reaction time)
 
             // Actually send messages and run things
             react = null // Set the react string to null.
@@ -64,7 +64,7 @@ class Main : JavaPlugin(), Listener {
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        if(!sender.hasPermission("react.start")) {
+        if (!sender.hasPermission("react.start")) {
             sender.sendMessage(col("&cNo permission."))
         }
         if (sender.hasPermission("react.start")) {
