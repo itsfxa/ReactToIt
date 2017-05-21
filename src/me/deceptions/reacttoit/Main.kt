@@ -59,7 +59,7 @@ class Main : JavaPlugin(), Listener {
             econ!!.depositPlayer(p, config.getInt("Money-To-Win").toDouble()) // Deposit the money to the players bank.
             p.sendMessage(col(config.getString("Tell-New-Balance").replace("{balance}", econ!!.getBalance(p).toInt().toString()))) // Tell them their new balance.
             e.isCancelled = true // Cancel the message
-            Bukkit.broadcastMessage(col(config.getString("Broadcast-Winner").replace("{player", p.name).replace("{time}", finalTime.toString()))) // Broadcast the reaction time to players.
+            Bukkit.broadcastMessage(col(config.getString("Broadcast-Winner").replace("{player}", p.name).replace("{time}", finalTime.toString()))) // Broadcast the reaction time to players.
         }
     }
 
