@@ -64,6 +64,9 @@ class Main : JavaPlugin(), Listener {
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+        if(!sender.hasPermission("react.start")) {
+            sender.sendMessage(col("&cNo permission."))
+        }
         if (sender.hasPermission("react.start")) {
             makeString() // Make a random string to broadcast
             Bukkit.broadcastMessage(col(config.getString("Broadcast").replace("{string}", react.toString()).replace("{money}", money.toString()))) // Announce the string and price you get for winning
