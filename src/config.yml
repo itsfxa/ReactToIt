@@ -1,3 +1,10 @@
-Money-to-win: 1000
+# Options #
+Money-To-Win: 1000 # How much the player wins when they get it right
+Message-Player: true # Should it message the player telling them they won? # True = yes. False = no.
+String-Length: 8 # How long should the length of the string be?
 
 # Messages config #
+Broadcast: '&7The first person to type &c{string} &7wins &a${money}' # {string} = What the player must type. # {money} = How much the player can win.
+Word-Correct: '&7Congratulations, you got the word right!' # If "Message-Player' is set to true above, send this message
+Tell-New-Balance: '&7You now have &a${balance}' # Tell the player their new balance.
+Broadcast-Winner: '&c{player} &7reacted in &c{time} &7seconds!' # Broadcast who won and how long it took them.

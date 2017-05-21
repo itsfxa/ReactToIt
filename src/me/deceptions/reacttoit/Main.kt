@@ -15,13 +15,15 @@ import java.util.concurrent.TimeUnit
 class Main : JavaPlugin(), Listener {
 
     /*
-    TODO:
-    Config shit ugh end me
+    Plugin made by FXA
+    Plugin started: 20/05/2017
+    Plugin finished: 21/05/2017
+    Last update: 21/05/2017
      */
 
     var econ: Economy? = null
     var react: String? = null
-    var money: Int? = config.getInt("Money-to-win")
+    var money: Int? = config.getInt("Money-To-Win")
     var startTime: Long? = null
 
     override fun onEnable() {
@@ -43,32 +45,36 @@ class Main : JavaPlugin(), Listener {
         val p = e.player
         val msg = e.message
 
-        /* if player got it right */
         if (msg === react) {
-            /* Declaring variables */
+            // Declaring variables
             val secondsTaken = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) // The time taken in seconds.
             val secondsStartTime = TimeUnit.MILLISECONDS.toSeconds(startTime!!.toLong()) // The start time in seconds.
             val finalTime: Long? = secondsTaken - secondsStartTime // The final time (reaction time)
 
-            /* Actually send messages and run things */
+            // Actually send messages and run things
             react = null // Set the react string to null.
-            p.sendMessage(col("&7Congratulations, you got the word right!")) // Tell the player they got the word right.
-            econ!!.depositPlayer(p, config.getInt("Money-to-win").toDouble()) // Deposit the money to the players bank.
-            p.sendMessage(col("&7You now have: &a$${econ!!.getBalance(p).toInt()}")) // Tell them their new balance.
+            if (config.getBoolean("Message-Player")) {
+                p.sendMessage(col(config.getString("Word-Correct"))) // Tell the player they got the word right.
+            }
+            econ!!.depositPlayer(p, config.getInt("Money-To-Win").toDouble()) // Deposit the money to the players bank.
+            p.sendMessage(col(config.getString("Tell-New-Balance").replace("{balance}", econ!!.getBalance(p).toInt().toString()))) // Tell them their new balance.
             e.isCancelled = true // Cancel the message
-            Bukkit.broadcastMessage(col("&c${p.name} &7reacted in &c$finalTime &7seconds!")) // Broadcast the reaction time to players.
+            Bukkit.broadcastMessage(col(config.getString("Broadcast-Winner").replace("{player", p.name).replace("{time}", finalTime.toString()))) // Broadcast the reaction time to players.
         }
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        makeString() // Make a random string to broadcast
-        Bukkit.broadcastMessage(col("&7First person to type &c$react &7wins &a$$money")) // Announce the string and price you get for winning
-        startTime = System.currentTimeMillis() // Log the time the command was sent
+        if (sender.hasPermission("react.start")) {
+            makeString() // Make a random string to broadcast
+            Bukkit.broadcastMessage(col(config.getString("Broadcast").replace("{string}", react.toString()).replace("{money}", money.toString()))) // Announce the string and price you get for winning
+            startTime = System.currentTimeMillis() // Log the time the command was sent
+            return true
+        }
         return false
     }
 
     fun makeString() {
-        react = RandomStringUtils.randomAlphanumeric(8) // Make a random 8 char string.
+        react = RandomStringUtils.randomAlphanumeric(config.getInt("String-Length")) // Make a string with the length defined in the config
     }
 
     fun col(text: String): String {

@@ -1,9 +1,13 @@
 main: me.deceptions.reacttoit.Main
 name: ReactToIt
-version: 1.1
+version: 1.2
 author: FXA
+website: https://deceptions.me
 depend: [Vault]
 
 commands:
   react:
     description: Starts react.
+permissions:
+  react.start:
+    description: Permission to use /react
