@@ -34,7 +34,7 @@ class Main : JavaPlugin(), Listener {
         config.options().copyDefaults(true)
         // If vault is not installed, disable the plugin.
         if (!setupEconomy()) {
-            println("Vault not found. Plugin disabling...")
+            println("Economy plugin not found. Plugin disabling...")
             Bukkit.getPluginManager().disablePlugin(this)
             return
         }
