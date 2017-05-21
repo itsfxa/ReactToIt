@@ -45,7 +45,7 @@ class Main : JavaPlugin(), Listener {
         val p = e.player
         val msg = e.message
 
-        if (msg === react) {
+        if (msg == react) {
             // Declaring variables
             val secondsTaken = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) // The time taken in seconds.
             val secondsStartTime = TimeUnit.MILLISECONDS.toSeconds(startTime!!.toLong()) // The start time in seconds.
