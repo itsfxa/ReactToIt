@@ -21,7 +21,7 @@ class Main : JavaPlugin(), Listener {
     Last update: 21/05/2017
      */
 
-    var econ: Economy? = null
+    lateinit var econ: Economy
     var react: String? = null
     var money: Int? = config.getInt("Money-To-Win")
     var startTime: Long? = null
@@ -56,8 +56,8 @@ class Main : JavaPlugin(), Listener {
             if (config.getBoolean("Message-Player")) {
                 p.sendMessage(col(config.getString("Word-Correct"))) // Tell the player they got the word right.
             }
-            econ!!.depositPlayer(p, config.getInt("Money-To-Win").toDouble()) // Deposit the money to the players bank.
-            p.sendMessage(col(config.getString("Tell-New-Balance").replace("{balance}", econ!!.getBalance(p).toInt().toString()))) // Tell them their new balance.
+            econ.depositPlayer(p, config.getInt("Money-To-Win").toDouble()) // Deposit the money to the players bank.
+            p.sendMessage(col(config.getString("Tell-New-Balance").replace("{balance}", econ.getBalance(p).toInt().toString()))) // Tell them their new balance.
             e.isCancelled = true // Cancel the message
             Bukkit.broadcastMessage(col(config.getString("Broadcast-Winner").replace("{player}", p.name).replace("{time}", finalTime.toString()))) // Broadcast the reaction time to players.
         }
