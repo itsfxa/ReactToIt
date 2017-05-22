@@ -12,13 +12,14 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.concurrent.TimeUnit
 
+
 class Main : JavaPlugin(), Listener {
 
     /*
     Plugin made by FXA
     Plugin started: 20/05/2017
     Plugin finished: 21/05/2017
-    Last update: 21/05/2017
+    Last update: 22/05/2017
      */
 
     lateinit var econ: Economy
@@ -34,7 +35,7 @@ class Main : JavaPlugin(), Listener {
         config.options().copyDefaults(true)
         // If vault is not installed, disable the plugin.
         if (!setupEconomy()) {
-            println("Economy plugin not found. Plugin disabling...")
+            println("Economy plugin not found, disabling..")
             Bukkit.getPluginManager().disablePlugin(this)
             return
         }
@@ -84,17 +85,13 @@ class Main : JavaPlugin(), Listener {
         return ChatColor.translateAlternateColorCodes('&', text)
     }
 
-    // Setup Vault economy
     private fun setupEconomy(): Boolean {
         if (server.pluginManager.getPlugin("Vault") == null) {
             return false
         }
-        val rsp = server.servicesManager.getRegistration(Economy::class.java)
-        if (rsp === null) {
-            return false
-        }
+        val rsp = server.servicesManager.getRegistration(Economy::class.java) ?: return false
         econ = rsp.provider
-        return econ != null
+        return true
     }
 
 }

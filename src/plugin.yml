@@ -1,6 +1,6 @@
 main: me.deceptions.reacttoit.Main
 name: ReactToIt
-version: 1.3
+version: 1.4
 author: FXA
 website: https://deceptions.me
 description: A plugin to test your players reaction times and reward them.
