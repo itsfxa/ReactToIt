@@ -20,7 +20,10 @@ class Main : JavaPlugin(), Listener {
     Plugin made by FXA
     Plugin started: 20/05/2017
     Plugin finished: 21/05/2017
-    Last update: 22/05/2017
+    Last update: 25/05/2017
+
+    Contributors:
+        - okkero
      */
 
     private lateinit var econ: Economy
