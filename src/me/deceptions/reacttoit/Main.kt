@@ -12,6 +12,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.concurrent.TimeUnit
 
+data class React(val text: String, val startTime: Long)
 
 class Main : JavaPlugin(), Listener {
 
@@ -19,13 +20,16 @@ class Main : JavaPlugin(), Listener {
     Plugin made by FXA
     Plugin started: 20/05/2017
     Plugin finished: 21/05/2017
-    Last update: 22/05/2017
+    Last update: 25/05/2017
+
+    Contributors:
+        - okkero
      */
 
-    lateinit var econ: Economy
-    var react: String? = null
-    var money: Int? = config.getInt("Money-To-Win")
-    var startTime: Long? = null
+    private lateinit var econ: Economy
+    private val money: Int = config.getInt("Money-To-Win")
+
+    private var react: React? = null
 
     override fun onEnable() {
         super.onEnable()
@@ -33,8 +37,9 @@ class Main : JavaPlugin(), Listener {
         getCommand("react").executor = this
         saveDefaultConfig()
         config.options().copyDefaults(true)
+
         // If vault is not installed, disable the plugin.
-        if (!setupEconomy()) {
+        econ = setupEconomy() ?: run {
             println("Economy plugin not found, disabling..")
             Bukkit.getPluginManager().disablePlugin(this)
             return
@@ -43,17 +48,19 @@ class Main : JavaPlugin(), Listener {
 
     @EventHandler
     fun onChat(e: AsyncPlayerChatEvent) {
-        val p = e.player
-        val msg = e.message
+        react?.let {
+            if (e.message != it.text) {
+                return
+            }
 
-        if (msg == react) {
             // Declaring variables
+            val p = e.player
             val secondsTaken = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) // The time taken in seconds.
-            val secondsStartTime = TimeUnit.MILLISECONDS.toSeconds(startTime!!.toLong()) // The start time in seconds.
+            val secondsStartTime = TimeUnit.MILLISECONDS.toSeconds(it.startTime) // The start time in seconds.
             val finalTime: Long = secondsTaken - secondsStartTime // The final time (reaction time)
 
             // Actually send messages and run things
-            react = null // Set the react string to null.
+            react = null // Set the react event to null.
             if (config.getBoolean("Message-Player")) {
                 p.sendMessage(col(config.getString("Word-Correct"))) // Tell the player they got the word right.
             }
@@ -69,29 +76,30 @@ class Main : JavaPlugin(), Listener {
             sender.sendMessage(col("&cNo permission."))
         }
         if (sender.hasPermission("react.start")) {
-            makeString() // Make a random string to broadcast
+            val str = makeString() // Make a random string to broadcast
+            val startTime = System.currentTimeMillis() // The time the command was sent
+
+            react = React(str, startTime)
             Bukkit.broadcastMessage(col(config.getString("Broadcast").replace("{string}", react.toString()).replace("{money}", money.toString()))) // Announce the string and price you get for winning
-            startTime = System.currentTimeMillis() // Log the time the command was sent
             return true
         }
         return false
     }
 
-    fun makeString() {
-        react = RandomStringUtils.randomAlphanumeric(config.getInt("String-Length")) // Make a string with the length defined in the config
+    fun makeString(): String {
+        return RandomStringUtils.randomAlphanumeric(config.getInt("String-Length")) // Make a string with the length defined in the config
     }
 
     fun col(text: String): String {
         return ChatColor.translateAlternateColorCodes('&', text)
     }
 
-    private fun setupEconomy(): Boolean {
+    private fun setupEconomy(): Economy? {
         if (server.pluginManager.getPlugin("Vault") == null) {
-            return false
+            return null
         }
-        val rsp = server.servicesManager.getRegistration(Economy::class.java) ?: return false
-        econ = rsp.provider
-        return true
+
+        return server.servicesManager.getRegistration(Economy::class.java)?.provider
     }
 
 }
